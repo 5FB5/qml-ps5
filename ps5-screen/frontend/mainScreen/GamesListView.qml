@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Timeline
+// import QtGraphicalEffects
 
 
 ListView
@@ -10,35 +11,63 @@ ListView
     property alias startupAnimation: animListView
     property alias timeline: timeline1
 
+    property int spacing_: 50
+
     anchors.fill: parent
 
-    spacing: 100
+    spacing: spacing_
     opacity: 0
     orientation: ListView.Horizontal
     interactive: false
+    clip: true
 
     currentIndex: -1
 
     model: ListModel {
         ListElement {
-            name: "Red"
-            text_: "Penis"
+            text_: "Title1"
         }
 
         ListElement {
-            name: "Green"
-            text_: "Vagina"
+            text_: "Title2"
         }
 
         ListElement {
-            name: "Blue"
-            text_: "Anal"
+            text_: "Title3"
         }
 
         ListElement {
-            name: "White"
-            text_: "Zalupa"
+            text_: "Title4"
         }
+
+        ListElement {
+            text_: "Title5"
+        }
+
+        ListElement {
+            text_: "Title6"
+        }
+
+        ListElement {
+            text_: "Title7"
+        }
+
+        ListElement {
+            text_: "Title8"
+        }
+
+        ListElement {
+            text_: "Title8"
+        }
+
+        ListElement {
+            text_: "Title9"
+        }
+
+        ListElement {
+            text_: "Title10"
+        }
+
     }
 
     Keys.onLeftPressed: function()
@@ -51,9 +80,10 @@ ListView
         incrementCurrentIndex();
     }
 
-    delegate: Rectangle {
-        width: index === root.currentIndex ? 200 : 150
-        height: index === root.currentIndex ? 200 : 150
+    delegate: Rectangle
+    {
+        width: index === root.currentIndex ? 230 : 150
+        height: index === root.currentIndex ? 230 : 150
 
         color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0)
 
@@ -63,8 +93,8 @@ ListView
         {
             NumberAnimation
             {
-                easing.type: Easing.InOutCubic
-                duration: 100
+                easing.type: Easing.InOutQuad
+                duration: 150
             }
         }
 
@@ -72,8 +102,8 @@ ListView
         {
             NumberAnimation
             {
-                easing.type: Easing.InOutCubic
-                duration: 100
+                easing.type: Easing.InOutQuad
+                duration: 150
             }
         }
 
@@ -84,18 +114,18 @@ ListView
             anchors
             {
                 top: parent.bottom
-                topMargin: 5
+                left: parent.right
+
+                topMargin: -25
+                leftMargin: 5
             }
 
             width: parent.width
-            horizontalAlignment: Qt.AlignHCenter
-
-            opacity: root.state === "MainState" ? 1 : 0
+            opacity: (root.state === "MainState" && index === root.currentIndex) ? 1 : 0
 
             font
             {
-                bold: true
-                pointSize: 16
+                pointSize: index === root.currentIndex ? 18 : 16
             }
 
             text: text_
@@ -107,20 +137,6 @@ ListView
                     easing.type: Easing.InOutCubic
                     duration: 250
                 }
-            }
-        }
-
-        MouseArea
-        {
-            id: mouseArea
-
-            anchors.fill: parent
-            hoverEnabled: true
-            enabled: root.interactive
-
-            onEntered: function()
-            {
-                root.currentIndex = index;
             }
         }
     }
@@ -157,7 +173,7 @@ ListView
             property: "spacing"
 
             Keyframe {
-                value: 100
+                value: spacing_
                 easing.bezierCurve: [0.445, 0.05, -0.105, 1.28, 1, 1]
                 frame: 1173
             }
@@ -200,14 +216,19 @@ ListView
 
             PropertyChanges {
                 target: root
-                focus: true
-            }
-
-            PropertyChanges {
-                target: root
                 opacity: 1
-                spacing: 100
-                interactive: true
+                spacing: root.spacing_
+                interactive: false
+                currentIndex: 0
+                focus: true
+                // snapMode: ListView.SnapOneItem
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                highlightFollowsCurrentItem: true
+                highlightResizeVelocity: -1
+                highlightMoveDuration: 80
+                highlightMoveVelocity: -1
+                // boundsMovement: Flickable.StopAtBounds
+                // boundsBehavior: Flickable.StopAtBounds
             }
 
             PropertyChanges {

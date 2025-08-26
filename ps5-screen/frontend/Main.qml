@@ -118,7 +118,7 @@ ApplicationWindow
                 top: parent.top
                 left: parent.left
                 right: parent.right
-                margins: 80
+                margins: 70
             }
 
             startupAnimation.onFinished: function()
