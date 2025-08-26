@@ -7,6 +7,8 @@ Text {
     id: root
 
     property alias animRunning: timelineAnimation.running
+    property alias timeline: timeline
+    property alias animation: timelineAnimation
 
     signal animFinished()
 
