@@ -6,10 +6,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Multimedia)
 
 qt_standard_project_setup(REQUIRES 6.5)
-
 
 qt_add_resources(RESOURCES resources.qrc)
 
@@ -30,6 +29,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE Qt6::Quick
+)
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE Qt6::Multimedia
 )
 
 include(GNUInstallDirs)

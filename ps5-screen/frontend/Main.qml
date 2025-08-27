@@ -4,13 +4,14 @@ import QtQuick.Timeline
 import "bootScreen"
 import "mainScreen"
 
-ApplicationWindow
+Window
 {
     id: root
 
     minimumWidth: 1600
     minimumHeight: 900
     visible: true
+
     title: qsTr("PS5 Screen")
 
     Rectangle
@@ -22,6 +23,11 @@ ApplicationWindow
         states: [
             State {
                 name: "Init"
+
+                PropertyChanges {
+                    target: gameInfoPanel
+                    currentIndex: 0
+                }
 
                 PropertyChanges {
                     target: gamesListView
@@ -43,10 +49,15 @@ ApplicationWindow
             State {
                 name: "MainState"
 
+                // PropertyChanges {
+                //     target: gameInfoPanel
+                //     currentIndex: 1
+                // }
+
                 PropertyChanges {
                     target: gamesListView
                     opacity: 1
-                    spacing: 100
+                    spacing_: 30
                     interactive: true
                 }
 
@@ -61,6 +72,13 @@ ApplicationWindow
                 }
             }
         ]
+
+        GameInfoPanel
+        {
+            id: gameInfoPanel
+
+            anchors.fill: parent
+        }
 
         LabelStartupEpilepsy
         {
@@ -118,7 +136,21 @@ ApplicationWindow
                 top: parent.top
                 left: parent.left
                 right: parent.right
-                margins: 70
+
+                margins: 100
+                leftMargin: 15
+                rightMargin: 0
+            }
+
+            onCurrentIndexChanged: function()
+            {
+                if (currentIndex === -1)
+                {
+                    gameInfoPanel.currentIndex = 0;
+                    return;
+                }
+
+                gameInfoPanel.currentIndex = currentIndex + 1;
             }
 
             startupAnimation.onFinished: function()

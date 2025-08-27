@@ -3,5 +3,17 @@
         <file>frontend/Main.qml</file>
         <file>frontend/bootScreen/LabelStartupEpilepsy.qml</file>
         <file>frontend/mainScreen/GamesListView.qml</file>
+        <file>resources/sounds/ui_achievement_toast.wav</file>
+        <file>resources/sounds/ui_default_activation.wav</file>
+        <file>resources/sounds/ui_hide_modal.wav</file>
+        <file>resources/sounds/ui_into_game_detail.wav</file>
+        <file>resources/sounds/ui_launch_game.wav</file>
+        <file>resources/sounds/ui_misc_10.wav</file>
+        <file>resources/sounds/ui_navigation.wav</file>
+        <file>resources/sounds/ui_out_of_game_detail.wav</file>
+        <file>resources/sounds/ui_show_modal.wav</file>
+        <file>resources/sounds/ui_side_menu_fly_in.wav</file>
+        <file>resources/sounds/ui_side_menu_fly_out.wav</file>
+        <file>frontend/mainScreen/GameInfoPanel.qml</file>
     </qresource>
 </RCC>

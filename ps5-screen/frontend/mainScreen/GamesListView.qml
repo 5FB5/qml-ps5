@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Timeline
+import QtMultimedia
+
+import "../../resources/sounds/"
 // import QtGraphicalEffects
 
 
@@ -11,7 +14,7 @@ ListView
     property alias startupAnimation: animListView
     property alias timeline: timeline1
 
-    property int spacing_: 50
+    property int spacing_: 30
 
     anchors.fill: parent
 
@@ -19,11 +22,16 @@ ListView
     opacity: 0
     orientation: ListView.Horizontal
     interactive: false
-    clip: true
+    clip: false
+    reuseItems: true
 
     currentIndex: -1
 
     model: ListModel {
+        ListElement {
+            text_: "PlayStation Store"
+        }
+
         ListElement {
             text_: "Title1"
         }
@@ -81,13 +89,22 @@ ListView
     }
 
     delegate: Rectangle
-    {
-        width: index === root.currentIndex ? 230 : 150
-        height: index === root.currentIndex ? 230 : 150
+    {   
+        width: index === root.currentIndex ? 250 : 150
+        height: index === root.currentIndex ? 250 : 150
 
         color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0)
 
-        radius: 40
+        radius: index === root.currentIndex  ? 60 : 40
+
+        Behavior on radius
+        {
+            NumberAnimation
+            {
+                easing.type: Easing.InOutQuad
+                duration: 150
+            }
+        }
 
         Behavior on width
         {
@@ -107,17 +124,42 @@ ListView
             }
         }
 
+        Rectangle
+        {
+            id: delegateBorder
+
+            anchors
+            {
+                fill: parent
+                margins: -1
+            }
+
+            color: "transparent"
+            border.color: "red"
+            border.width: 4
+            radius: parent.radius + border.width
+            opacity: index === root.currentIndex
+
+            Behavior on opacity
+            {
+                NumberAnimation
+                {
+                    easing.type: Easing.InOutQuad
+                    duration: 150
+                }
+            }
+        }
+
         Text
         {
             id: labelGame
 
             anchors
             {
-                top: parent.bottom
+                bottom: delegateBorder.bottom
                 left: parent.right
 
-                topMargin: -25
-                leftMargin: 5
+                leftMargin: 12
             }
 
             width: parent.width
@@ -125,6 +167,7 @@ ListView
 
             font
             {
+                family: "Ubuntu"
                 pointSize: index === root.currentIndex ? 18 : 16
             }
 
@@ -221,14 +264,13 @@ ListView
                 interactive: false
                 currentIndex: 0
                 focus: true
-                // snapMode: ListView.SnapOneItem
+                snapMode: ListView.SnapToItem
                 highlightRangeMode: ListView.StrictlyEnforceRange
                 highlightFollowsCurrentItem: true
-                highlightResizeVelocity: -1
-                highlightMoveDuration: 80
+                highlightMoveDuration: 100
                 highlightMoveVelocity: -1
-                // boundsMovement: Flickable.StopAtBounds
-                // boundsBehavior: Flickable.StopAtBounds
+                boundsBehavior: Flickable.StopAtBounds
+                boundsMovement: Flickable.StopAtBounds
             }
 
             PropertyChanges {
