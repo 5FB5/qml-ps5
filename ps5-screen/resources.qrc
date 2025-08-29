@@ -15,5 +15,6 @@
         <file>resources/sounds/ui_side_menu_fly_in.wav</file>
         <file>resources/sounds/ui_side_menu_fly_out.wav</file>
         <file>frontend/mainScreen/GameInfoPanel.qml</file>
+        <file>frontend/mainScreen/TopPanel.qml</file>
     </qresource>
 </RCC>

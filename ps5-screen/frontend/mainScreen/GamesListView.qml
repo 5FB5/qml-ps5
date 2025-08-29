@@ -23,7 +23,6 @@ ListView
     orientation: ListView.Horizontal
     interactive: false
     clip: false
-    reuseItems: true
 
     currentIndex: -1
 
@@ -135,10 +134,10 @@ ListView
             }
 
             color: "transparent"
-            border.color: "red"
+            border.color: "cyan"
             border.width: 4
             radius: parent.radius + border.width
-            opacity: index === root.currentIndex
+            opacity: index === root.currentIndex && root.focus
 
             Behavior on opacity
             {
@@ -146,6 +145,39 @@ ListView
                 {
                     easing.type: Easing.InOutQuad
                     duration: 150
+                }
+            }
+
+            SequentialAnimation
+            {
+                running: index === root.currentIndex && root.focus
+                loops: Animation.Infinite
+
+                NumberAnimation
+                {
+                    target: delegateBorder
+                    property: "opacity"
+                    to: 1
+                    easing.type: Easing.InOutQuad
+                    duration: 200
+                }
+
+                NumberAnimation
+                {
+                    target: delegateBorder
+                    property: "opacity"
+                    to: 0.5
+                    easing.type: Easing.InOutQuad
+                    duration: 500
+                }
+
+                NumberAnimation
+                {
+                    target: delegateBorder
+                    property: "opacity"
+                    to: 1
+                    easing.type: Easing.InOutQuad
+                    duration: 500
                 }
             }
         }
@@ -159,7 +191,8 @@ ListView
                 bottom: delegateBorder.bottom
                 left: parent.right
 
-                leftMargin: 12
+                bottomMargin: parent.height / 5.5
+                leftMargin: delegateBorder.border.width + root.spacing //12
             }
 
             width: parent.width
@@ -168,7 +201,7 @@ ListView
             font
             {
                 family: "Ubuntu"
-                pointSize: index === root.currentIndex ? 18 : 16
+                pointSize: index === root.currentIndex ? 25 : 16
             }
 
             text: text_

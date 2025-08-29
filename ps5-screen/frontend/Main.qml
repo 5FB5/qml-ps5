@@ -8,8 +8,8 @@ Window
 {
     id: root
 
-    minimumWidth: 1600
-    minimumHeight: 900
+    minimumWidth: 1920
+    minimumHeight: 1080
     visible: true
 
     title: qsTr("PS5 Screen")
@@ -23,6 +23,11 @@ Window
         states: [
             State {
                 name: "Init"
+
+                PropertyChanges {
+                    target: topPanel
+                    opacity: 0
+                }
 
                 PropertyChanges {
                     target: gameInfoPanel
@@ -53,6 +58,11 @@ Window
                 //     target: gameInfoPanel
                 //     currentIndex: 1
                 // }
+
+                PropertyChanges {
+                    target: topPanel
+                    opacity: 1
+                }
 
                 PropertyChanges {
                     target: gamesListView
@@ -127,9 +137,9 @@ Window
             }
         }
 
-        GamesListView
+        TopPanel
         {
-            id: gamesListView
+            id: topPanel
 
             anchors
             {
@@ -137,8 +147,27 @@ Window
                 left: parent.left
                 right: parent.right
 
+                leftMargin: 100
+                // rightMargin: 50
+            }
+
+            height: 90
+            opacity: 0
+        }
+
+        GamesListView
+        {
+            id: gamesListView
+
+            anchors
+            {
+                top: topPanel.bottom
+                left: parent.left
+                right: parent.right
+
                 margins: 100
-                leftMargin: 15
+                topMargin: 120
+                // leftMargin: 15
                 rightMargin: 0
             }
 
