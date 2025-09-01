@@ -8,17 +8,123 @@ Window
 {
     id: root
 
-    minimumWidth: 1920
-    minimumHeight: 1080
+    minimumWidth: 1600
+    minimumHeight: 900
     visible: true
 
     title: qsTr("PS5 Screen")
 
-    Rectangle
+    color: "white"
+
+    GameInfoPanel
     {
-        id: bg
+        id: gameInfoPanel
 
         anchors.fill: parent
+    }
+
+    LabelStartupEpilepsy
+    {
+        id: labelStartupEpilepsy
+
+        width: parent.width / 1.1
+        height: parent.height / 1.5
+
+        anchors.centerIn: parent
+
+        animRunning: false
+
+        font
+        {
+            capitalization: Font.AllUppercase
+            family: "Ubuntu"
+            pointSize: 20
+            styleName: "Thin"
+        }
+
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        opacity: 0
+        scale: 1
+        wrapMode: Text.WordWrap
+
+        Timer
+        {
+            id: timerStartup
+
+            interval: 1000
+            repeat: false
+            running: true
+
+            onTriggered: function()
+            {
+                labelStartupEpilepsy.animRunning = true;
+            }
+        }
+
+        onAnimFinished: function()
+        {
+            states.state = "Init";
+            gamesListView.state = "Init";
+            gamesListView.startupAnimation.running = true;
+        }
+    }
+
+    TopPanel
+    {
+        id: topPanel
+
+        anchors
+        {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+
+            leftMargin: 100
+            rightMargin: 50
+        }
+
+        // width: parent.width
+        height: 90
+        opacity: 0
+    }
+
+    GamesListView
+    {
+        id: gamesListView
+
+        anchors
+        {
+            top: topPanel.bottom
+            left: parent.left
+            right: parent.right
+
+            margins: 100
+            topMargin: 120
+            // leftMargin: 15
+            rightMargin: 0
+        }
+
+        onCurrentIndexChanged: function()
+        {
+            if (currentIndex === -1)
+            {
+                gameInfoPanel.currentIndex = 0;
+                return;
+            }
+
+            gameInfoPanel.currentIndex = currentIndex + 1;
+        }
+
+        startupAnimation.onFinished: function()
+        {
+            states.state = "MainState";
+            gamesListView.state = "MainState";
+        }
+    }
+
+    StateGroup {
+        id: states
 
         states: [
             State {
@@ -82,112 +188,5 @@ Window
                 }
             }
         ]
-
-        GameInfoPanel
-        {
-            id: gameInfoPanel
-
-            anchors.fill: parent
-        }
-
-        LabelStartupEpilepsy
-        {
-            id: labelStartupEpilepsy
-
-            width: parent.width / 1.1
-            height: parent.height / 1.5
-
-            anchors.centerIn: parent
-
-            animRunning: false
-
-            font
-            {
-                capitalization: Font.AllUppercase
-                family: "Ubuntu"
-                pointSize: 20
-                styleName: "Thin"
-            }
-
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            opacity: 0
-            scale: 1
-            wrapMode: Text.WordWrap
-
-            Timer
-            {
-                id: timerStartup
-
-                interval: 1000
-                repeat: false
-                running: true
-
-                onTriggered: function()
-                {
-                    labelStartupEpilepsy.animRunning = true;
-                }
-            }
-
-            onAnimFinished: function()
-            {
-                bg.state = "Init";
-                gamesListView.state = "Init";
-                gamesListView.startupAnimation.running = true;
-            }
-        }
-
-        TopPanel
-        {
-            id: topPanel
-
-            anchors
-            {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-
-                leftMargin: 100
-                rightMargin: 50
-            }
-
-            // width: parent.width
-            height: 90
-            opacity: 0
-        }
-
-        GamesListView
-        {
-            id: gamesListView
-
-            anchors
-            {
-                top: topPanel.bottom
-                left: parent.left
-                right: parent.right
-
-                margins: 100
-                topMargin: 120
-                // leftMargin: 15
-                rightMargin: 0
-            }
-
-            onCurrentIndexChanged: function()
-            {
-                if (currentIndex === -1)
-                {
-                    gameInfoPanel.currentIndex = 0;
-                    return;
-                }
-
-                gameInfoPanel.currentIndex = currentIndex + 1;
-            }
-
-            startupAnimation.onFinished: function()
-            {
-                bg.state = "MainState";
-                gamesListView.state = "MainState";
-            }
-        }
     }
 }

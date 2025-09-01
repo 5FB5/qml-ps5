@@ -26,56 +26,15 @@ ListView
 
     currentIndex: -1
 
-    model: ListModel {
-        ListElement {
-            text_: "PlayStation Store"
+    Component.onCompleted: function()
+    {
+        for (let i = 0; i < 15; i++)
+        {
+            model.append({text_: "Title" + i})
         }
-
-        ListElement {
-            text_: "Title1"
-        }
-
-        ListElement {
-            text_: "Title2"
-        }
-
-        ListElement {
-            text_: "Title3"
-        }
-
-        ListElement {
-            text_: "Title4"
-        }
-
-        ListElement {
-            text_: "Title5"
-        }
-
-        ListElement {
-            text_: "Title6"
-        }
-
-        ListElement {
-            text_: "Title7"
-        }
-
-        ListElement {
-            text_: "Title8"
-        }
-
-        ListElement {
-            text_: "Title8"
-        }
-
-        ListElement {
-            text_: "Title9"
-        }
-
-        ListElement {
-            text_: "Title10"
-        }
-
     }
+
+    model: ListModel {}
 
     Keys.onLeftPressed: function()
     {
@@ -215,6 +174,15 @@ ListView
                 }
             }
         }
+    }
+
+    MouseArea {
+        id: mouseArea
+
+        anchors.fill: parent
+
+        hoverEnabled: true
+        onEntered: root.focus = true
     }
 
     Timeline {

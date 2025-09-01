@@ -32,16 +32,31 @@ Item
                 text: "Games"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: buttonGames.checked ? "red" : "white"
+                color: "white" //buttonGames.checked ? "red" : "white"
                 font {
                     family: "Ubuntu"
+                    styleName: "Thin"
                     pointSize: 24
                     bold: buttonGames.checked
                 }
             }
 
             checkable: true
-            checked: false
+            checked: true
+
+            onCheckedChanged: function()
+            {
+                if (checked)
+                {
+                    buttonMedia.checkable = true;
+                    buttonMedia.checked = false;
+                }
+            }
+
+            onToggled: function()
+            {
+                checkable = false;
+            }
         }
 
         Button {
@@ -55,9 +70,10 @@ Item
                 text: "Media"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: buttonMedia.checked ? "red" : "white"
+                color: "white" //buttonMedia.checked ? "red" : "white"
                 font {
                     family: "Ubuntu"
+                    styleName: "Thin"
                     pointSize: 24
                     bold: buttonMedia.checked
                 }
@@ -65,6 +81,20 @@ Item
 
             checkable: true
             checked: false
+
+            onCheckedChanged: function()
+            {
+                if (checked)
+                {
+                    buttonGames.checkable = true;
+                    buttonGames.checked = false;
+                }
+            }
+
+            onToggled: function()
+            {
+                checkable = false;
+            }
         }
 
         Item { Layout.fillWidth: true }
@@ -95,8 +125,8 @@ Item
 
             icon {
                 source: "qrc:/resources/icons/search.svg"
-                width: 35
-                height: 35
+                width: 25
+                height: 25
                 color: "white"
             }
         }
@@ -130,8 +160,8 @@ Item
 
             icon {
                 source: "qrc:/resources/icons/settings.svg"
-                width: 45
-                height: 45
+                width: 35
+                height: 35
                 color: "white"
             }
         }
@@ -164,8 +194,8 @@ Item
 
             icon {
                 source: "qrc:/resources/icons/profile.svg"
-                width: 35
-                height: 35
+                width: 25
+                height: 25
                 color: "white"
             }
         }
