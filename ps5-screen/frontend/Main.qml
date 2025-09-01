@@ -148,9 +148,10 @@ Window
                 right: parent.right
 
                 leftMargin: 100
-                // rightMargin: 50
+                rightMargin: 50
             }
 
+            // width: parent.width
             height: 90
             opacity: 0
         }

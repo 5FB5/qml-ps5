@@ -16,24 +16,16 @@ Item
     RowLayout {
         id: rowLayout
 
-        anchors
-        {
-            fill: parent
-            // margins: 20
-            // leftMargin: 50
-        }
-
-        layoutDirection: Qt.LeftToRight
-        uniformCellSizes: true
-        spacing: -10
+        anchors.fill: parent
+        spacing: 0
 
         Button {
             id: buttonGames
 
             property bool isAlreadyChecked: false
 
-            implicitWidth: 100
-            implicitHeight: 50
+            Layout.preferredWidth: 120
+            Layout.preferredHeight: 50
 
             background: Item {}
             contentItem: Text {
@@ -55,8 +47,8 @@ Item
         Button {
             id: buttonMedia
 
-            implicitWidth: 200
-            implicitHeight: 50
+            Layout.preferredWidth: 350
+            Layout.preferredHeight: 50
 
             background: Item {}
             contentItem: Text {
@@ -75,84 +67,122 @@ Item
             checked: false
         }
 
+        Item { Layout.fillWidth: true }
+
         Button {
             id: buttonSearch
 
-            implicitWidth: 65
-            implicitHeight: 65
+            Layout.preferredWidth: 65
+            Layout.preferredHeight: 65
 
-            background: Rectangle {
-                radius: implicitWidth
-            }
-            contentItem: Text {
-                // text: "Search"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: buttonGames.checked ? "red" : "white"
-                font {
-                    family: "Ubuntu"
-                    pointSize: 24
-                    bold: buttonGames.checked
-                }
-            }
-        }
-
-        Button {
-            id: buttonProfile
-
-            implicitWidth: 65
-            implicitHeight: 65
+            display: AbstractButton.IconOnly
 
             background: Rectangle {
                 radius: parent.Layout.preferredWidth
+                color: "transparent"
             }
-            contentItem: Text {
-                // text: "Search"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: buttonGames.checked ? "red" : "white"
-                font {
-                    family: "Ubuntu"
-                    pointSize: 24
-                    bold: buttonGames.checked
-                }
+            // contentItem: Text {
+            //     // text: "Search"
+            //     horizontalAlignment: Text.AlignHCenter
+            //     verticalAlignment: Text.AlignVCenter
+            //     color: buttonGames.checked ? "red" : "white"
+            //     font {
+            //         family: "Ubuntu"
+            //         pointSize: 24
+            //         bold: buttonGames.checked
+            //     }
+            // }
+
+            icon {
+                source: "qrc:/resources/icons/search.svg"
+                width: 35
+                height: 35
+                color: "white"
             }
         }
+
+        Item { Layout.preferredWidth: 50 }
+
 
         Button {
             id: buttonSettings
 
-            implicitWidth: 65
-            implicitHeight: 65
+            Layout.preferredWidth: 65
+            Layout.preferredHeight: 65
+
+            display: AbstractButton.IconOnly
 
             background: Rectangle {
-                radius: implicitWidth
+                radius: parent.Layout.preferredWidth
+                color: "transparent"
             }
-            contentItem: Text {
-                // text: "Search"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: buttonGames.checked ? "red" : "white"
-                font {
-                    family: "Ubuntu"
-                    pointSize: 27
-                    bold: buttonGames.checked
-                }
+            // contentItem: Text {
+            //     // text: "Search"
+            //     horizontalAlignment: Text.AlignHCenter
+            //     verticalAlignment: Text.AlignVCenter
+            //     color: buttonGames.checked ? "red" : "white"
+            //     font {
+            //         family: "Ubuntu"
+            //         pointSize: 27
+            //         bold: buttonGames.checked
+            //     }
+            // }
+
+            icon {
+                source: "qrc:/resources/icons/settings.svg"
+                width: 45
+                height: 45
+                color: "white"
+            }
+        }
+
+        Item { Layout.preferredWidth: 50 }
+
+        Button {
+            id: buttonProfile
+
+            Layout.preferredWidth: 65
+            Layout.preferredHeight: 65
+
+            display: AbstractButton.IconOnly
+
+            background: Rectangle {
+                radius: parent.Layout.preferredWidth
+                color: "transparent"
+            }
+            // contentItem: Text {
+            //     // text: "Search"
+            //     horizontalAlignment: Text.AlignHCenter
+            //     verticalAlignment: Text.AlignVCenter
+            //     color: buttonGames.checked ? "red" : "white"
+            //     font {
+            //         family: "Ubuntu"
+            //         pointSize: 24
+            //         bold: buttonGames.checked
+            //     }
+            // }
+
+            icon {
+                source: "qrc:/resources/icons/profile.svg"
+                width: 35
+                height: 35
+                color: "white"
             }
         }
 
         Text {
             id: labelTime
 
-            Layout.preferredWidth: 120
+            Layout.preferredWidth: 300
             Layout.preferredHeight: 75
 
             font
             {
                 family: "Ubuntu"
                 styleName: "Thin"
-                pointSize: 26
+                pointSize: 30
             }
+            color: "white"
 
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter

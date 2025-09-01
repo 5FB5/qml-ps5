@@ -201,7 +201,7 @@ ListView
             font
             {
                 family: "Ubuntu"
-                pointSize: index === root.currentIndex ? 25 : 16
+                pointSize: 25
             }
 
             text: text_
