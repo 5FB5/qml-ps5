@@ -1,3 +1,4 @@
+#include <QQmlContext>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
@@ -9,7 +10,12 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    GamepadManager manager;
+
     const QUrl url = QUrl(QStringLiteral("qrc:/frontend/Main.qml"));
+
+    qmlRegisterType<GamepadManager>("gamepadmanager", 1, 0, "GamepadManager");
+    engine.rootContext()->setContextProperty("gamepadManager", &manager);
 
     QObject::connect(
         &engine,
@@ -18,8 +24,6 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
     engine.load(url);
-
-    GamepadManager manager;
 
     return app.exec();
 }

@@ -74,6 +74,9 @@ private:
     int fd = -1;
 
 signals:
+    void actionPressed(QString event);
+    void actionReleased(QString event);
+
     void handleInput(int fd);
 };
 
