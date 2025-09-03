@@ -2,15 +2,17 @@
 #define GAMEPADMANAGER_H
 
 #include <QDebug>
-#include <QFuture>
-#include <QSharedPointer>
-#include <QtConcurrent/QtConcurrent>
+#include <QThread>
 #include <QObject>
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/joystick.h>
 
+#include "gamepadhandlerworker.h"
+
 #define DEVICE_PATH "/dev/input/js0"
+
+class GamepadHandlerWorker;
 
 enum class PSButton: uint8_t
 {
@@ -22,40 +24,57 @@ enum class PSButton: uint8_t
     UNKNOWN
 };
 
-inline QMap<uint8_t, QString> XboxButton
-    {
-        {   0,     "accept"     },
-        {   1,     "cancel"     },
-        {   2,     "X"          },
-        {   3,     "Y"          },
-        {   4,     "LB"         },
-        {   5,     "RB"         },
-        {   6,     "Back"       },
-        {   7,     "Start"      },
-        {   8,     "Xbox"       },
-        {   9,     "LS"         },
-        {   10,    "RS"         }
-    };
+namespace GamepadMappings
+{
+    inline QMap<uint8_t, QString> XboxButtonMap
+        {
+            {   0,     "A"                  },
+            {   1,     "B"                  },
+            {   2,     "X"                  },
+            {   3,     "Y"                  },
+            {   4,     "LB"                 },
+            {   5,     "RB"                 },
+            {   6,     "Back"               },
+            {   7,     "Start"              },
+            {   8,     "Xbox"               },
+            {   9,     "LS"                 },
+            {   10,    "RS"                 },
+            {   255,   "XboxGamepad"        }
+        };
 
+    inline QMap<QString, QString> XboxActionMap
+        {
+            {   "A",        "accept"        },
+            {   "B",        "cancel"        },
+            {   "X",        "X event"       },
+            {   "Y",        "Y event"       },
+            {   "LB",       "LB event"      },
+            {   "RB",       "RB event"      },
+            {   "Back",     "Back event"    },
+            {   "Start",    "Start event"   },
+            {   "Xbox",     "Xbox event"    },
+            {   "LS",       "LS event"      },
+            {   "RS",       "RS event"      }
+        };
+
+    inline QMap<uint8_t, QString> currentMap;
+}
 class GamepadManager : public QObject
 {
     Q_OBJECT
 
 public:
     explicit GamepadManager(QObject *parent = nullptr);
+    ~GamepadManager();
 
 private:
-    static void handleXboxInput(int fd);
-    static int readEvent(int fd, js_event *event);
+    GamepadHandlerWorker *worker = nullptr;
+    QThread *thread = nullptr;
 
-    static void getButton(uint8_t button, int16_t value);
-
-    QFuture<void> future;
-
-    void test();
+    int fd = -1;
 
 signals:
-    void actionTriggered(QString name, QString state);
+    void handleInput(int fd);
 };
 
 #endif // GAMEPADMANAGER_H
