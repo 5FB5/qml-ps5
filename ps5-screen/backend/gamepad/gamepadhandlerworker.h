@@ -28,7 +28,8 @@ private:
     QMutex mutex;
 
 signals:
-    void actionTrigerred(QString event, QString state);
+    void actionPressed(QString event);
+    void actionReleased(QString event);
 };
 
 #endif // GAMEPADHANDLERWORKER_H

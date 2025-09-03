@@ -30,8 +30,16 @@ void GamepadHandlerWorker::processButton(uint8_t index, int16_t value)
 {
     if (GamepadMappings::currentMap[255] == "XboxGamepad")
     {
-        qDebug() << "[GamepadHandlerWorker]: Call event" << GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]] << (value ? "pressed" : "released");
-        emit actionTrigerred(GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]], value ? "pressed" : "released");
+        if (value)
+        {
+            qDebug() << "[GamepadHandlerWorker]: Call event" << GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]] << "pressed";
+            emit actionPressed(GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]]);
+        }
+        else
+        {
+            qDebug() << "[GamepadHandlerWorker]: Call event" << GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]] << "released";
+            emit actionReleased(GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]]);
+        }
     }
 }
 

@@ -28,18 +28,18 @@ namespace GamepadMappings
 {
     inline QMap<uint8_t, QString> XboxButtonMap
         {
-            {   0,     "A"                  },
-            {   1,     "B"                  },
-            {   2,     "X"                  },
-            {   3,     "Y"                  },
-            {   4,     "LB"                 },
-            {   5,     "RB"                 },
-            {   6,     "Back"               },
-            {   7,     "Start"              },
-            {   8,     "Xbox"               },
-            {   9,     "LS"                 },
-            {   10,    "RS"                 },
-            {   255,   "XboxGamepad"        }
+            {   0,     "A"              },
+            {   1,     "B"              },
+            {   2,     "X"              },
+            {   3,     "Y"              },
+            {   4,     "LB"             },
+            {   5,     "RB"             },
+            {   6,     "Back"           },
+            {   7,     "Start"          },
+            {   8,     "Xbox"           },
+            {   9,     "LS"             },
+            {   10,    "RS"             },
+            {   255,   "XboxGamepad"    }
         };
 
     inline QMap<QString, QString> XboxActionMap
