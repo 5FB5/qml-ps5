@@ -13,7 +13,7 @@ Window
 
     function test(name)
     {
-        console.log(name);
+        console.log(name, "released");
     }
 
     minimumWidth: 1600

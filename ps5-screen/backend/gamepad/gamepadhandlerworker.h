@@ -2,7 +2,7 @@
 #define GAMEPADHANDLERWORKER_H
 
 #include <QDebug>
-#include <QMutex>
+#include <QGuiApplication>
 #include <QObject>
 #include <fcntl.h>
 #include <unistd.h>
@@ -22,10 +22,11 @@ public:
 
 private:
     void processButton(uint8_t index, int16_t value);
-    void processButtonEvent(QString buttonName, int16_t value);
+    void processAxis(uint8_t index, int16_t value);
+
     int readEvent(int fd, js_event *event);
 
-    QMutex mutex;
+    int32_t lastAxisValue;
 
 signals:
     void actionPressed(QString event);

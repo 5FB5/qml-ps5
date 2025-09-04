@@ -27,7 +27,10 @@ GamepadManager::GamepadManager(QObject *parent)
     if (name.toLower().contains("xbox"))
     {
         qDebug() << "[GamepadManager]: Set Xbox mapping";
-        GamepadMappings::currentMap = GamepadMappings::XboxButtonMap;
+
+        GamepadMappings::currentDeviceButtonMap = GamepadMappings::_XboxButtonMap;
+        GamepadMappings::currentDeviceAxisMap = GamepadMappings::_XboxAxisMap;
+        GamepadMappings::currentButtonActionMap = GamepadMappings::_XboxButtonActionMap;
     }
     else
     {
@@ -36,7 +39,7 @@ GamepadManager::GamepadManager(QObject *parent)
     }
 
     thread = new QThread;
-    thread->setObjectName("GamepadInputThread");
+    thread->setObjectName("GPadInptThr");
 
     worker = new GamepadHandlerWorker();
     worker->moveToThread(thread);
@@ -50,4 +53,7 @@ GamepadManager::GamepadManager(QObject *parent)
     emit handleInput(fd);
 }
 
-GamepadManager::~GamepadManager() {}
+GamepadManager::~GamepadManager()
+{
+    delete worker;
+}
