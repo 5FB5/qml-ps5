@@ -34,8 +34,12 @@ inline QMap<uint8_t, QString> _XboxButtonMap
 
 inline QMap<uint8_t, QString> _XboxAxisMap
     {
-        {  6, "D-Pad Horizontal"    },
-        {  7, "D-Pad Vertical"   }
+        {       0, "Left stick Horizontal"       },
+        {       1, "Left stick Vertical"         },
+        {       3, "Right stick Horizontal"      },
+        {       4, "Right stick Vertical"        },
+        {       6, "D-Pad Horizontal"            },
+        {       7, "D-Pad Vertical"              }
     };
 
 inline QMap<QString, QString> _XboxButtonActionMap
@@ -79,6 +83,7 @@ private:
     int fd = -1;
 
 signals:
+    void axisChanged(QString event, int32_t value);
     void actionPressed(QString event);
     void actionReleased(QString event);
 

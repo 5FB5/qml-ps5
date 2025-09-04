@@ -47,6 +47,7 @@ GamepadManager::GamepadManager(QObject *parent)
     QObject::connect(this, &GamepadManager::handleInput, worker, &GamepadHandlerWorker::handleInput, Qt::QueuedConnection);
     QObject::connect(worker, &GamepadHandlerWorker::actionPressed, this, &GamepadManager::actionPressed, Qt::QueuedConnection);
     QObject::connect(worker, &GamepadHandlerWorker::actionReleased, this, &GamepadManager::actionReleased, Qt::QueuedConnection);
+    QObject::connect(worker, &GamepadHandlerWorker::axisChanged, this, &GamepadManager::axisChanged, Qt::QueuedConnection);
 
     thread->start();
 

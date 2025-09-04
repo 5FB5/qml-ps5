@@ -86,6 +86,10 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
         else if (value < 0)
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
     }
+    else
+    {
+        emit axisChanged(GamepadMappings::currentDeviceAxisMap[index], value);
+    }
 }
 
 int GamepadHandlerWorker::readEvent(int fd, js_event *event)

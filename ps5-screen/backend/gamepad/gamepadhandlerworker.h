@@ -29,6 +29,7 @@ private:
     int32_t lastAxisValue;
 
 signals:
+    void axisChanged(QString event, int32_t value);
     void actionPressed(QString event);
     void actionReleased(QString event);
 };
