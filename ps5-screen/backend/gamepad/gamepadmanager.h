@@ -87,7 +87,7 @@ signals:
     void actionPressed(QString event);
     void actionReleased(QString event);
 
-    void handleInput(int fd);
+    void _handleInput(int fd);
 };
 
 #endif // GAMEPADMANAGER_H
