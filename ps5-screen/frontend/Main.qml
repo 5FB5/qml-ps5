@@ -1,12 +1,30 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Timeline
+
+import gamepadmanager
+
 import "bootScreen"
 import "mainScreen"
 
 Window
 {
     id: root
+
+    function test(name)
+    {
+        console.log(name, "released");
+    }
+
+    function test2(axisName, value)
+    {
+        console.log("Axis", axisName + ":", value);
+    }
+
+    function test3(name)
+    {
+        console.log(name, "pressed");
+    }
 
     minimumWidth: 1600
     minimumHeight: 900
@@ -15,6 +33,13 @@ Window
     title: qsTr("PS5 Screen")
 
     color: "white"
+
+    Component.onCompleted: function()
+    {
+        // gamepadManager.actionReleased.connect(test);
+        // gamepadManager.actionPressed.connect(test3);
+        // gamepadManager.axisChanged.connect(test2);
+    }
 
     GameInfoPanel
     {
