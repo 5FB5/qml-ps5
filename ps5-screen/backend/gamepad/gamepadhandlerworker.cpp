@@ -52,7 +52,7 @@ void GamepadHandlerWorker::processButton(uint8_t index, int16_t value)
 
 void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
 {
-    if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("D-Pad Horizontal"))
+    if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("d-pad horizontal"))
     {
         if (value == 0)
         {
@@ -70,7 +70,7 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
         else if (value < 0)
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
     }
-    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("D-Pad Vertical"))
+    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("d-pad vertical"))
     {
         if (value == 0)
         {
