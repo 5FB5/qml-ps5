@@ -4,6 +4,8 @@ GamepadHandlerWorker::GamepadHandlerWorker(QObject *parent)
     : QObject{parent}
 {}
 
+GamepadHandlerWorker::~GamepadHandlerWorker() {}
+
 void GamepadHandlerWorker::handleInput(int fd)
 {
     struct js_event event;
@@ -50,7 +52,7 @@ void GamepadHandlerWorker::processButton(uint8_t index, int16_t value)
 
 void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
 {
-    if (GamepadMappings::currentDeviceAxisMap[index].contains("D-Pad Horizontal"))
+    if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("D-Pad Horizontal"))
     {
         if (value == 0)
         {
@@ -68,7 +70,7 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
         else if (value < 0)
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
     }
-    else if (GamepadMappings::currentDeviceAxisMap[index].contains("D-Pad Vertical"))
+    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("D-Pad Vertical"))
     {
         if (value == 0)
         {
@@ -84,6 +86,21 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
         if (value > 0)
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
         else if (value < 0)
+            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
+    }
+    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("stick horizontal"))
+    {
+        if (value == JOYSTICK_MAX_VALUE)
+            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
+        else if (value == JOYSTICK_MIN_VALUE)
+            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
+
+    }
+    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("stick vertical"))
+    {
+        if (value == JOYSTICK_MAX_VALUE)
+            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
+        else if (value == JOYSTICK_MIN_VALUE)
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
     }
     else

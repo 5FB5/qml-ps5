@@ -17,6 +17,7 @@ class GamepadHandlerWorker : public QObject
     Q_OBJECT
 public:
     explicit GamepadHandlerWorker(QObject *parent = nullptr);
+    ~GamepadHandlerWorker();
 
     void handleInput(int fd);
 

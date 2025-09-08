@@ -31,6 +31,8 @@ GamepadManager::GamepadManager(QObject *parent)
         GamepadMappings::currentDeviceButtonMap = GamepadMappings::_XboxButtonMap;
         GamepadMappings::currentDeviceAxisMap = GamepadMappings::_XboxAxisMap;
         GamepadMappings::currentButtonActionMap = GamepadMappings::_XboxButtonActionMap;
+
+        setCurrentDevice(GamepadType::XBOX);
     }
     else
     {
@@ -57,4 +59,17 @@ GamepadManager::GamepadManager(QObject *parent)
 GamepadManager::~GamepadManager()
 {
     delete worker;
+}
+
+GamepadManager::GamepadType GamepadManager::currentDevice() const
+{
+    return m_currentDevice;
+}
+
+void GamepadManager::setCurrentDevice(const GamepadType &newCurrentDevice)
+{
+    if (m_currentDevice == newCurrentDevice)
+        return;
+    m_currentDevice = newCurrentDevice;
+    emit currentDeviceChanged();
 }

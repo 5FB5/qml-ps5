@@ -21,6 +21,11 @@ Window
         console.log("Axis", axisName + ":", value);
     }
 
+    function test3(name)
+    {
+        console.log(name, "pressed");
+    }
+
     minimumWidth: 1600
     minimumHeight: 900
     visible: true
@@ -31,8 +36,9 @@ Window
 
     Component.onCompleted: function()
     {
-        gamepadManager.actionReleased.connect(test);
-        gamepadManager.axisChanged.connect(test2);
+        // gamepadManager.actionReleased.connect(test);
+        // gamepadManager.actionPressed.connect(test3);
+        // gamepadManager.axisChanged.connect(test2);
     }
 
     GameInfoPanel
