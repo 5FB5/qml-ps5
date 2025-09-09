@@ -15,6 +15,8 @@
 #define JOYSTICK_MAX_VALUE 32767
 #define JOYSTICK_MIN_VALUE -32767
 
+#define DEAD_ZONE 0.1
+
 class GamepadHandlerWorker;
 
 namespace GamepadMappings
@@ -46,25 +48,25 @@ inline QMap<uint8_t, QString> _XboxAxisMap
 
 inline QMap<QString, QString> _XboxButtonActionMap
     {
-        {   "A",                            "accept"                    },
-        {   "B",                            "cancel"                    },
-        {   "X",                            "X event"                   },
-        {   "Y",                            "Y event"                   },
-        {   "LB",                           "LB event"                  },
-        {   "RB",                           "RB event"                  },
-        {   "Back",                         "Back event"                },
-        {   "Start",                        "Start event"               },
-        {   "Xbox",                         "Xbox event"                },
-        {   "LS",                           "LS button"                 },
-        {   "RS",                           "RS button"                 },
-        {   "Left stick VerticalUp",        "LS up"                     },
-        {   "Left stick VerticalDown",      "LS down"                   },
-        {   "Left stick HorizontalLeft",    "LS left"                   },
-        {   "Left stick HorizontalRight",   "LS right"                  },
-        {   "D-Pad HorizontalRight",        "D-Pad right event"         },
-        {   "D-Pad HorizontalLeft",         "D-Pad left event"          },
-        {   "D-Pad VerticalUp",             "D-Pad up event"            },
-        {   "D-Pad VerticalDown",           "D-Pad down event"          },
+        {   "A",                            "accept"            },
+        {   "B",                            "cancel"            },
+        {   "X",                            "X event"           },
+        {   "Y",                            "Y event"           },
+        {   "LB",                           "LB event"          },
+        {   "RB",                           "RB event"          },
+        {   "Back",                         "Back event"        },
+        {   "Start",                        "Start event"       },
+        {   "Xbox",                         "Xbox event"        },
+        {   "LS",                           "lsbutton"          },
+        {   "RS",                           "rs button"         },
+        {   "Left stick VerticalUp",        "ls up"             },
+        {   "Left stick VerticalDown",      "ls down"           },
+        {   "Left stick HorizontalLeft",    "ls left"           },
+        {   "Left stick HorizontalRight",   "ls right"          },
+        {   "D-Pad HorizontalRight",        "dpad right"        },
+        {   "D-Pad HorizontalLeft",         "dpad left"         },
+        {   "D-Pad VerticalUp",             "dpad up"           },
+        {   "D-Pad VerticalDown",           "dpad down"         },
     };
 
 inline QMap<QString, QString> currentAxisActionMap;

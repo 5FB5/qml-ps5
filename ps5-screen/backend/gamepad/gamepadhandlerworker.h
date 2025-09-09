@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QGuiApplication>
 #include <QObject>
+#include <math.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/joystick.h>
@@ -26,6 +27,7 @@ private:
     void processAxis(uint8_t index, int16_t value);
 
     int readEvent(int fd, js_event *event);
+    float normalize(int16_t value);
 
     int32_t lastAxisValue;
 
