@@ -8,10 +8,8 @@ StackLayout
 
     property int panelAnimationSpeed: 600
 
-    onCurrentIndexChanged: function()
-    {
-        for (let i = 0; i < children.length; i++)
-        {
+    onCurrentIndexChanged: function() {
+        for (let i = 0; i < children.length; i++) {
             let leftPanel = children[currentIndex - 1];
             let midPanel = children[currentIndex];
             let rightPanel = children[currentIndex + 1];

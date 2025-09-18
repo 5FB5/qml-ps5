@@ -19,5 +19,7 @@
         <file>resources/icons/profile.svg</file>
         <file>resources/icons/settings.svg</file>
         <file>resources/icons/search.svg</file>
+        <file>frontend/gamepadUi/GPFocusScope.qml</file>
+        <file>frontend/gamepadUi/GPFocusItem.qml</file>
     </qresource>
 </RCC>

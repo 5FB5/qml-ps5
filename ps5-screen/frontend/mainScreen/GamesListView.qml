@@ -4,8 +4,6 @@ import QtQuick.Timeline
 import QtMultimedia
 
 import "../../resources/sounds/"
-// import QtGraphicalEffects
-
 
 ListView
 {
@@ -36,15 +34,15 @@ ListView
 
     model: ListModel {}
 
-    Keys.onLeftPressed: function()
-    {
-        decrementCurrentIndex();
-    }
+    // Keys.onLeftPressed: function()
+    // {
+    //     decrementCurrentIndex();
+    // }
 
-    Keys.onRightPressed: function()
-    {
-        incrementCurrentIndex();
-    }
+    // Keys.onRightPressed: function()
+    // {
+    //     incrementCurrentIndex();
+    // }
 
     delegate: Rectangle
     {   
@@ -183,6 +181,7 @@ ListView
 
         hoverEnabled: true
         onEntered: root.focus = true
+        enabled: false
     }
 
     Timeline {
@@ -243,6 +242,7 @@ ListView
                 visible: true
                 spacing: -150
                 interactive: false
+                enabled: false
             }
 
             PropertyChanges {
@@ -264,7 +264,7 @@ ListView
                 spacing: root.spacing_
                 interactive: false
                 currentIndex: 0
-                focus: true
+                // focus: true
                 snapMode: ListView.SnapToItem
                 highlightRangeMode: ListView.StrictlyEnforceRange
                 highlightFollowsCurrentItem: true
@@ -272,6 +272,7 @@ ListView
                 highlightMoveVelocity: -1
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.StopAtBounds
+                enabled: true
             }
 
             PropertyChanges {
