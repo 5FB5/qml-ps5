@@ -1,8 +1,7 @@
 #include "gamepadhandlerworker.h"
 
 GamepadHandlerWorker::GamepadHandlerWorker(QObject *parent)
-    : QObject{parent}
-{}
+    : QObject{parent} {}
 
 GamepadHandlerWorker::~GamepadHandlerWorker() {}
 
@@ -39,22 +38,18 @@ void GamepadHandlerWorker::handleInput(int fd)
 void GamepadHandlerWorker::processButton(uint8_t index, int16_t normalizedValue)
 {
     if (normalizedValue)
-    {
-        // qDebug() << "[GamepadHandlerWorker]: Call event" << GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]] << "pressed";
         emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceButtonMap[index]]);
-    }
     else
-    {
-        // qDebug() << "[GamepadHandlerWorker]: Call event" << GamepadMappings::XboxActionMap[GamepadMappings::currentMap[index]] << "released";
         emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceButtonMap[index]]);
-    }
 }
 
 void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
 {
     float normalizedValue = normalize(value);
 
-    if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("d-pad horizontal"))
+    QString axisName = GamepadMappings::currentDeviceAxisMap[index].toLower();
+
+    if (axisName.contains("d-pad horizontal"))
     {
         if (normalizedValue == 0)
         {
@@ -65,14 +60,20 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
             return;
         }
 
-        lastAxisValue = normalizedValue;
-
         if (normalizedValue > 0)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"];
+            emit actionPressed(currentActionName);
+        }
         else if (normalizedValue < 0)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"];
+            emit actionPressed(currentActionName);
+        }
+
+        lastAxisValue = normalizedValue;
     }
-    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("d-pad vertical"))
+    else if (axisName.contains("d-pad vertical"))
     {
         if (normalizedValue == 0)
         {
@@ -80,30 +81,60 @@ void GamepadHandlerWorker::processAxis(uint8_t index, int16_t value)
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
             else if (lastAxisValue < 0)
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
+
             return;
         }
 
         lastAxisValue = normalizedValue;
 
         if (normalizedValue > 0)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"];
+            emit actionPressed(currentActionName);
+        }
         else if (normalizedValue < 0)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"];
+            emit actionPressed(currentActionName);
+        }
     }
-    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("stick horizontal"))
+    else if (axisName.contains("stick horizontal"))
     {
-        if (normalizedValue == 1.f)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
-        else if (normalizedValue == -1.f)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
+        if (normalizedValue == 0)
+        {
+            if (lastAxisValue == 1.f)
+                emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
+            else if (lastAxisValue == -1.f)
+                emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
+            return;
+        }
 
+        if (normalizedValue == 1.f || normalizedValue == -1.f)
+            lastAxisValue = normalizedValue;
+
+        if (normalizedValue == 1.f)
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"];
+            emit actionPressed(currentActionName);
+        }
+        else if (normalizedValue == -1.f)
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"];
+            emit actionPressed(currentActionName);
+        }
     }
-    else if (GamepadMappings::currentDeviceAxisMap[index].toLower().contains("stick vertical"))
+    else if (axisName.contains("stick vertical"))
     {
         if (normalizedValue == 1.f)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"];
+            emit actionPressed(currentActionName);
+        }
         else if (normalizedValue == -1.f)
-            emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
+        {
+            currentActionName = GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"];
+            emit actionPressed(currentActionName);
+        }
     }
     else
     {
@@ -115,7 +146,6 @@ float GamepadHandlerWorker::normalize(int16_t value)
 {
     float result = 0.0;
     float normalized = 0.0;
-    float sign = 0.0;
 
     result = 2.0 * (value - JOYSTICK_MIN_VALUE) / (JOYSTICK_MAX_VALUE - JOYSTICK_MIN_VALUE) - 1.0;
 

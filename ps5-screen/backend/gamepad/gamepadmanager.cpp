@@ -3,6 +3,8 @@
 GamepadManager::GamepadManager(QObject *parent)
     : QObject{parent}
 {
+    timerPressAndHold.setInterval(TIMER_PRESSHOLD_INTERVAL);
+
     int fd = open(DEVICE_PATH, O_RDONLY);
 
     if (fd == -1)
@@ -47,8 +49,9 @@ GamepadManager::GamepadManager(QObject *parent)
     worker->moveToThread(thread);
 
     QObject::connect(this, &GamepadManager::_handleInput, worker, &GamepadHandlerWorker::handleInput, Qt::QueuedConnection);
-    QObject::connect(worker, &GamepadHandlerWorker::actionPressed, this, &GamepadManager::actionPressed, Qt::QueuedConnection);
-    QObject::connect(worker, &GamepadHandlerWorker::actionReleased, this, &GamepadManager::actionReleased, Qt::QueuedConnection);
+    QObject::connect(&timerPressAndHold, &QTimer::timeout, this, &GamepadManager::processPressAndHold);
+    QObject::connect(worker, &GamepadHandlerWorker::actionPressed, this, &GamepadManager::processActionPressed, Qt::QueuedConnection);
+    QObject::connect(worker, &GamepadHandlerWorker::actionReleased, this, &GamepadManager::processActionReleased, Qt::QueuedConnection);
     QObject::connect(worker, &GamepadHandlerWorker::axisChanged, this, &GamepadManager::axisChanged, Qt::QueuedConnection);
 
     thread->start();
@@ -72,4 +75,23 @@ void GamepadManager::setCurrentDevice(const GamepadType &newCurrentDevice)
         return;
     m_currentDevice = newCurrentDevice;
     emit currentDeviceChanged();
+}
+
+void GamepadManager::processActionPressed(QString actionName)
+{
+    currentActionName = actionName;
+
+    emit actionPressed(actionName);
+    timerPressAndHold.start();
+}
+
+void GamepadManager::processActionReleased(QString actionName)
+{
+    timerPressAndHold.stop();
+    emit actionReleased(actionName);
+}
+
+void GamepadManager::processPressAndHold()
+{
+    emit actionPressed(currentActionName);
 }

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 Item {
     id: root
@@ -14,20 +15,22 @@ Item {
 
     property bool __debugMode: false
 
+    signal actionPressed(string actionName)
+    signal actionReleased(string actionName)
+
     Rectangle {
         id: border
 
-        anchors {
-            fill: parent
-            margins: -10
-        }
+        parent: Overlay.overlay
+
+        width: root.width
+        height: root.height
+
+        x: root.x
+        y: root.y
 
         visible: root.focus && __debugMode
-        color: "transparent"
-
-        border {
-            color: "tomato"
-            width: 5
-        }
+        color: "tomato"
+        opacity: 0.5
     }
 }

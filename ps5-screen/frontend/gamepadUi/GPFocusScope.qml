@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 import gamepadmanager
 
-FocusScope
+Item
 {
     id: root
 
@@ -12,12 +12,12 @@ FocusScope
 
     property bool lockFocus: false
 
-    property bool debugMode: true
-
-    signal actionPressed(string actionName)
-    signal actionReleased(string actionName)
+    property bool debugMode: false
 
     function move(actionName) {
+        if (!visible)
+            return;
+
         switch(actionName) {
         case "up": {
             let topNeighbour = __lastObject.neighbours.top;
@@ -60,17 +60,17 @@ FocusScope
     }
 
     function __handlerActionPressed(name) {
-        if (!visible)
+        if (!visible || !__lastObject.focus)
             return;
 
-        actionPressed(name);
+        __lastObject.actionPressed(name);
     }
 
     function __handlerActionReleased(name) {
-        if (!visible)
+        if (!visible || !__lastObject.focus)
             return;
 
-        actionReleased(name);
+        __lastObject.actionReleased(name);
     }
 
     function __setDebugMode() {
@@ -96,5 +96,19 @@ FocusScope
 
     onDebugModeChanged: function() {
         __setDebugMode();
+    }
+
+    Rectangle {
+        id: border
+
+        parent: Overlay.overlay
+
+        anchors {
+            fill: parent
+        }
+
+        visible: debugMode
+        color: "blue"
+        opacity: 0.4
     }
 }

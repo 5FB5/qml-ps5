@@ -94,7 +94,7 @@ ListView
             border.color: "cyan"
             border.width: 4
             radius: parent.radius + border.width
-            opacity: index === root.currentIndex && root.focus
+            opacity: index === root.currentIndex && root.parent.focus
 
             Behavior on opacity
             {
@@ -107,7 +107,7 @@ ListView
 
             SequentialAnimation
             {
-                running: index === root.currentIndex && root.focus
+                running: index === root.currentIndex && root.parent.focus
                 loops: Animation.Infinite
 
                 NumberAnimation

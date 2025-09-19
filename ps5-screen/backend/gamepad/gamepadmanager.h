@@ -17,6 +17,8 @@
 
 #define DEAD_ZONE 0.1
 
+#define TIMER_PRESSHOLD_INTERVAL 200
+
 class GamepadHandlerWorker;
 
 namespace GamepadMappings
@@ -97,12 +99,20 @@ public:
     void setCurrentDevice(const GamepadType &newCurrentDevice);
 
 private:
+    QTimer timerPressAndHold;
+
+    QString currentActionName = "";
+
     GamepadHandlerWorker *worker = nullptr;
     QThread *thread = nullptr;
 
     int fd = -1;
 
     GamepadType m_currentDevice;
+
+    void processActionPressed(QString actionName);
+    void processActionReleased(QString actionName);
+    void processPressAndHold();
 
 signals:
     void axisChanged(QString event, int32_t value);

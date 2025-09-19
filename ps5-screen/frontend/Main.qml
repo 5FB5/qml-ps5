@@ -28,6 +28,8 @@ Window
 
         firstObject: gp2
 
+        debugMode: true
+
         GameInfoPanel
         {
             id: gameInfoPanel
@@ -129,26 +131,25 @@ Window
             height: 90
             // lockFocus: true
 
-            // onActionPressed: function(name) {
-            //     if (states.state === "" || states.state === "Init")
-            //         return;
+            onActionPressed: function(name) {
+                if (states.state === "" || states.state === "Init")
+                    return;
 
-            //     switch(name) {
-            //     case "left":
-            //         gamesListView.decrementCurrentIndex();
-            //         break;
-            //     case "right":
-            //         gamesListView.incrementCurrentIndex();
-            //         break;
-            //     default: break;
-            //     }
-            // }
+                switch(name) {
+                case "left":
+                    gamesListView.decrementCurrentIndex();
+                    break;
+                case "right":
+                    gamesListView.incrementCurrentIndex();
+                    break;
+                default: break;
+                }
+            }
 
             GamesListView {
                 id: gamesListView
 
                 anchors.fill: parent
-
                 onCurrentIndexChanged: function() {
                     if (currentIndex === -1)
                     {
