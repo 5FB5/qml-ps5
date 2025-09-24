@@ -1,9 +1,11 @@
-#ifndef GAMEPADHANDLERWORKER_H
-#define GAMEPADHANDLERWORKER_H
+#ifndef GAMEPADPOSIXDATAHANDLER_H
+#define GAMEPADPOSIXDATAHANDLER_H
 
 #include <QDebug>
 #include <QGuiApplication>
 #include <QTimer>
+#include <QMutexLocker>
+#include <QMutex>
 #include <QObject>
 #include <math.h>
 #include <fcntl.h>
@@ -14,28 +16,28 @@
 
 class GamepadManager;
 
-class GamepadHandlerWorker : public QObject
+class GamepadPosixDataHandler: public QObject
 {
     Q_OBJECT
-public:
-    explicit GamepadHandlerWorker(QObject *parent = nullptr);
-    ~GamepadHandlerWorker();
 
-    void init();
+public:
+    explicit GamepadPosixDataHandler(QObject *parent = nullptr);
+    ~GamepadPosixDataHandler();
+
     void handleInput(int fd);
 
 private:
-    QString currentActionName = "";
-
-    void processPressAndHold();
-
     void processButton(uint8_t index, int16_t value);
     void processAxis(uint8_t index, int16_t value);
 
     int readEvent(int fd, js_event *event);
     float normalize(int16_t value);
 
-    int32_t lastAxisValue = 0;
+    float lastAxisValue = 0;
+
+    bool actionByAxisAlreadyPressed = false;
+
+    QMutex mutex;
 
 signals:
     void axisChanged(QString event, int32_t value);
@@ -43,4 +45,4 @@ signals:
     void actionReleased(QString event);
 };
 
-#endif // GAMEPADHANDLERWORKER_H
+#endif // GamepadPosixDataHandler_H

@@ -21,6 +21,7 @@ ListView
     orientation: ListView.Horizontal
     interactive: false
     clip: false
+    reuseItems: true
 
     currentIndex: -1
 
@@ -28,7 +29,7 @@ ListView
     {
         for (let i = 0; i < 15; i++)
         {
-            model.append({text_: "Title" + i})
+            model.append({text_: "Title" + i, color_: Math.ceil(Math.random() * 99)})
         }
     }
 
@@ -49,7 +50,8 @@ ListView
         width: index === root.currentIndex ? 250 : 150
         height: index === root.currentIndex ? 250 : 150
 
-        color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0)
+        // color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0)
+        gradient: color_
 
         radius: index === root.currentIndex  ? 60 : 40
 

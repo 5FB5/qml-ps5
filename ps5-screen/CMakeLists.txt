@@ -15,7 +15,8 @@ qt_add_resources(RESOURCES resources.qrc)
 include_directories(backend/gamepad)
 
 set(SOURCES main.cpp    backend/gamepad/gamepadmanager.cpp
-                        backend/gamepad/gamepadhandlerworker.cpp)
+                        backend/gamepad/gamepadposixdatahandler.cpp
+                        backend/gamepad/gamepadeventdispatcher.cpp)
 
 add_executable(${PROJECT_NAME} ${RESOURCES} ${SOURCES}
 )

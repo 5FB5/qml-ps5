@@ -28,7 +28,9 @@ Window
 
         firstObject: gp2
 
-        debugMode: true
+        // debugMode: true
+
+        enabled: states.state === "MainState"
 
         GameInfoPanel
         {
@@ -132,8 +134,8 @@ Window
             // lockFocus: true
 
             onActionPressed: function(name) {
-                if (states.state === "" || states.state === "Init")
-                    return;
+                // if (states.state === "" || states.state === "Init")
+                //     return;
 
                 switch(name) {
                 case "left":

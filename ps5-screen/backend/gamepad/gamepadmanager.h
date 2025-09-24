@@ -8,7 +8,8 @@
 #include <unistd.h>
 #include <linux/joystick.h>
 
-#include "gamepadhandlerworker.h"
+#include "gamepadposixdatahandler.h"
+#include "gamepadeventdispatcher.h"
 
 #define DEVICE_PATH "/dev/input/js0"
 
@@ -17,9 +18,9 @@
 
 #define DEAD_ZONE 0.1
 
-#define TIMER_PRESSHOLD_INTERVAL 200
+#define STICK_ACTION_THRESHOLD 0.6f
 
-class GamepadHandlerWorker;
+class GamepadPosixDataHandler;
 
 namespace GamepadMappings
 {
@@ -59,7 +60,7 @@ inline QMap<QString, QString> _XboxButtonActionMap
         {   "Back",                         "Back event"        },
         {   "Start",                        "Start event"       },
         {   "Xbox",                         "Xbox event"        },
-        {   "LS",                           "ls button"          },
+        {   "LS",                           "ls button"         },
         {   "RS",                           "rs button"         },
         {   "Left stick VerticalUp",        "up"                },
         {   "Left stick VerticalDown",      "down"              },
@@ -99,20 +100,15 @@ public:
     void setCurrentDevice(const GamepadType &newCurrentDevice);
 
 private:
-    QTimer timerPressAndHold;
+    GamepadPosixDataHandler *posixDataHandler = nullptr;
+    GamepadEventDispatcher *eventDispatcher = nullptr;
 
-    QString currentActionName = "";
-
-    GamepadHandlerWorker *worker = nullptr;
-    QThread *thread = nullptr;
+    QThread *threadPosixDataHandler = nullptr;
+    QThread *threadEventDispatcher = nullptr;
 
     int fd = -1;
 
     GamepadType m_currentDevice;
-
-    void processActionPressed(QString actionName);
-    void processActionReleased(QString actionName);
-    void processPressAndHold();
 
 signals:
     void axisChanged(QString event, int32_t value);
@@ -121,6 +117,8 @@ signals:
 
     void _handleInput(int fd);
     void currentDeviceChanged();
+
+    void test();
 };
 
 #endif // GAMEPADMANAGER_H

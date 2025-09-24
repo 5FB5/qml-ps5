@@ -15,7 +15,7 @@ Item
     property bool debugMode: false
 
     function move(actionName) {
-        if (!visible)
+        if (!visible || !enabled)
             return;
 
         switch(actionName) {
