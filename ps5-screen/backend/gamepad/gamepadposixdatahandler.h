@@ -37,6 +37,12 @@ private:
 
     bool actionByAxisAlreadyPressed = false;
 
+    bool horizontalAxisPressed = false;
+    bool verticalAxisPressed = false;
+
+    float lastHorizontalAxisValue = 0.0f;
+    float lastVerticalAxisValue = 0.0f;
+
     QMutex mutex;
 
 signals:

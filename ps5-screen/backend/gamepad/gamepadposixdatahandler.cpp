@@ -62,7 +62,6 @@ void GamepadPosixDataHandler::processAxis(uint8_t index, int16_t value)
     float normalizedValue = normalize(value);
 
     QString axisName = GamepadMappings::currentDeviceAxisMap[index].toLower();
-
     if (axisName.contains("d-pad horizontal"))
     {
         if (normalizedValue == 0)
@@ -104,79 +103,74 @@ void GamepadPosixDataHandler::processAxis(uint8_t index, int16_t value)
     else if (axisName.contains("stick horizontal"))
     {
         // Stick released
-        if (normalizedValue == 0.0f)
+        if (qAbs(normalizedValue) > 0.0f && qAbs(normalizedValue) <= STICK_ACTION_THRESHOLD)
         {
-            if (lastAxisValue >= STICK_ACTION_THRESHOLD)
+            if (lastHorizontalAxisValue >= STICK_ACTION_THRESHOLD)
             {
-                actionByAxisAlreadyPressed = false;
+                horizontalAxisPressed = false;
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
             }
-            else if (lastAxisValue <= -STICK_ACTION_THRESHOLD)
+            else if (lastHorizontalAxisValue <= -STICK_ACTION_THRESHOLD)
             {
-                actionByAxisAlreadyPressed = false;
+                horizontalAxisPressed = false;
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
             }
 
             return;
         }
 
-        if (actionByAxisAlreadyPressed)
+        if (horizontalAxisPressed)
             return;
 
         // Stick hold
         if (normalizedValue >= STICK_ACTION_THRESHOLD)
         {
-            actionByAxisAlreadyPressed = true;
-            lastAxisValue = normalizedValue;
+            horizontalAxisPressed = true;
 
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Right"]);
         }
         else if (normalizedValue <= -STICK_ACTION_THRESHOLD)
         {
-            actionByAxisAlreadyPressed = true;
-            lastAxisValue = normalizedValue;
+            horizontalAxisPressed = true;
 
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Left"]);
         }
 
-        lastAxisValue = normalizedValue;
+        lastHorizontalAxisValue = normalizedValue;
     }
     else if (axisName.contains("stick vertical"))
     {
-        if (actionByAxisAlreadyPressed)
-            return;
-
         // Stick released
-        if (normalizedValue == 0.0f)
+        if (qAbs(normalizedValue) > 0.0f && qAbs(normalizedValue) <= STICK_ACTION_THRESHOLD)
         {
-            if (lastAxisValue >= STICK_ACTION_THRESHOLD)
+            if (lastVerticalAxisValue >= STICK_ACTION_THRESHOLD)
             {
-                actionByAxisAlreadyPressed = false;
+                verticalAxisPressed = false;
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
             }
-            else if (lastAxisValue <= -STICK_ACTION_THRESHOLD)
+            else if (lastVerticalAxisValue <= -STICK_ACTION_THRESHOLD)
             {
-                actionByAxisAlreadyPressed = false;
+                verticalAxisPressed = false;
                 emit actionReleased(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
             }
 
             return;
         }
 
-        lastAxisValue = normalizedValue;
+        lastVerticalAxisValue = normalizedValue;
 
-        if (actionByAxisAlreadyPressed)
+        if (verticalAxisPressed)
             return;
 
         // Stick hold
         if (normalizedValue >= STICK_ACTION_THRESHOLD)
         {
-            actionByAxisAlreadyPressed = true;
+            verticalAxisPressed = true;
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Down"]);
         }
         else if (normalizedValue <= -STICK_ACTION_THRESHOLD)
         {
-            actionByAxisAlreadyPressed = true;
+            verticalAxisPressed = true;
             emit actionPressed(GamepadMappings::currentButtonActionMap[GamepadMappings::currentDeviceAxisMap[index] + "Up"]);
         }
     }

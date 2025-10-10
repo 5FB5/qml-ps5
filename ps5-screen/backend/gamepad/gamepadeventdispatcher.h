@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QDebug>
 #include <QObject>
 
 #define TIMER_PRESSHOLD_START_INTERVAL 380
