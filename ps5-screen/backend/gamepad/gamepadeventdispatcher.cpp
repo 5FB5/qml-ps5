@@ -16,7 +16,7 @@ void GamepadEventDispatcher::init()
     timerStartPressAndHold->setInterval(TIMER_PRESSHOLD_START_INTERVAL);
     timerPressAndHoldLoop->setInterval(TIMER_PRESSHOLD_LOOP_INTERVAL);
 
-    QObject::connect(timerStartPressAndHold, &QTimer::timeout, this, &GamepadEventDispatcher::startPressedActionLoopTimer, Qt::QueuedConnection);
+    QObject::connect(timerStartPressAndHold, &QTimer::timeout, this, &GamepadEventDispatcher::startPressedActionLoopTimer);
     QObject::connect(timerPressAndHoldLoop, &QTimer::timeout, this, &GamepadEventDispatcher::processPressAndHoldAction);
 }
 
